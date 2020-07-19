@@ -29,14 +29,14 @@ def getHistory(pageableObject, channelId, pageSize = 100):
                 response = pageableObject.history(
                     channel=channelId,
                     latest=lastTimestamp,
-                    oldest=0,
+                    oldest=args.lastExport,
                     limit=pageSize
                 ).body
             else:
                 response = pageableObject.history(
                     channel = channelId,
                     latest    = lastTimestamp,
-                    oldest    = 0,
+                    oldest    = args.lastExport,
                     count     = pageSize
                 ).body
         except requests.exceptions.HTTPError as e:
@@ -48,14 +48,14 @@ def getHistory(pageableObject, channelId, pageSize = 100):
                     response = pageableObject.history(
                         channel=channelId,
                         latest=lastTimestamp,
-                        oldest=0,
+                        oldest=args.lastExport,
                         limit=pageSize
                     ).body
                 else:
                     response = pageableObject.history(
                         channel=channelId,
                         latest=lastTimestamp,
-                        oldest=0,
+                        oldest=args.lastExport,
                         count=pageSize
                     ).body
 
@@ -366,6 +366,12 @@ if __name__ == "__main__":
         action='store_true',
         default=False,
         help="Prompt you to select the conversations to export")
+
+    parser.add_argument(
+        '--lastExport',
+        default=0,
+        help='The epoch of the earliest message you want exported')
+
 
     args = parser.parse_args()
 
